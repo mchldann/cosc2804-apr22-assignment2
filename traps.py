@@ -57,13 +57,25 @@ def _HALT():
     raise Halt()
 
 
+def _PRINT_REGISTERS():
+    print("R0: " + str(reg_read(Registers.R0)))
+    print("R1: " + str(reg_read(Registers.R1)))
+    print("R2: " + str(reg_read(Registers.R2)))
+    print("R3: " + str(reg_read(Registers.R3)))
+    print("R4: " + str(reg_read(Registers.R4)))
+    print("R5: " + str(reg_read(Registers.R5)))
+    print("R6: " + str(reg_read(Registers.R6)))
+    print("R7: " + str(reg_read(Registers.R7)) + "\n")
+
+
 class Traps:
-    GETC = 0x20    # get character from keyboard
-    OUT = 0x21     # output a character
-    PUTS = 0x22    # output a word string
-    IN = 0x23      # input a string
-    PUTSP = 0x24   # output a byte string
-    HALT = 0x25    # halt the program
+    GETC = 0x20              # get character from keyboard
+    OUT = 0x21               # output a character
+    PUTS = 0x22              # output a word string
+    IN = 0x23                # input a string
+    PUTSP = 0x24             # output a byte string
+    HALT = 0x25              # halt the program
+    PRINT_REGISTERS = 0x30
 
 
 _traps = {
@@ -72,7 +84,8 @@ _traps = {
     Traps.PUTS: _PUTS,
     Traps.IN: _IN,
     Traps.PUTSP: _PUTSP,
-    Traps.HALT: _HALT
+    Traps.HALT: _HALT,
+    Traps.PRINT_REGISTERS: _PRINT_REGISTERS
 }
 
 
