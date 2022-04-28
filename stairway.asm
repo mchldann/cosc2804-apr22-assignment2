@@ -1,0 +1,7 @@
+.ORIG x3000
+HALT
+; Note: Your code should be able to handle different values of STAIRS_WIDTH, STAIRS_LENGTH and STAIRS_HEIGHT.
+STAIRS_WIDTH .FILL #5
+STAIRS_LENGTH .FILL #10
+STAIRS_HEIGHT .FILL #10
+.END
