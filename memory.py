@@ -1,6 +1,6 @@
 import array
 from kbhit import check_key
-from getch import getch
+import msvcrt
 
 _MEMORY_SIZE = 2 ** 16
 _main_memory = array.array('H', [0 for i in range(_MEMORY_SIZE)])
@@ -35,8 +35,8 @@ def mem_read(address):
     address = address % _MEMORY_SIZE
     if address == MMR.KBSR:
         if check_key():
-            mem_write(MMR.KBSR, (1 << 15))
-            mem_write(MMR.KBDR, ord(getch()))
+            mem_write(MMR.KBSR, (1 << 15))            
+            mem_write(MMR.KBDR, ord(msvcrt.getch()))
     else:
         mem_write(MMR.KBSR, 0)
 

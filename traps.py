@@ -1,6 +1,6 @@
 from memory import mem_read, mem_write, Registers, reg_read, reg_write
 from utils import sign_extend
-from getch import getch
+import msvcrt
 import sys
 
 
@@ -12,7 +12,7 @@ class Halt(Exception):
 def _GETC():
     """get character from keyboard,
      character is not echoed onto the console. """
-    ch = getch()
+    ch = msvcrt.getch()   
     reg_write(Registers.R0, ord(ch))
 
 
