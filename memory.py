@@ -1,13 +1,20 @@
 import array
 from kbhit import check_key
-from getch import getch
+from utils import is_windows
 
-_MEMORY_SIZE = 2 ** 16
-_main_memory = array.array('H', [0 for i in range(_MEMORY_SIZE)])
+if is_windows:
+    import msvcrt
+else:
+    from getch import getch
+
+
+_MEMORY_SIZE = 2**16
+_main_memory = array.array("H", [0 for i in range(_MEMORY_SIZE)])
 
 
 class MMR:
-    """Memory-mapped registers """
+    """Memory-mapped registers"""
+
     KBSR = 0xFE00  # keyboard status
     KBDR = 0xFE02  # keyboard data
 
@@ -16,7 +23,7 @@ def load_image(image):
     global _main_memory
     # load the origin, which indicates the starting address of the
     # program in memory.
-    origin = int.from_bytes(image.read(2), byteorder='big')
+    origin = int.from_bytes(image.read(2), byteorder="big")
     _main_memory = array.array("H", [0] * origin)
     # load actual program instructions in the origin address.
     max_read = _MEMORY_SIZE - origin
@@ -36,7 +43,10 @@ def mem_read(address):
     if address == MMR.KBSR:
         if check_key():
             mem_write(MMR.KBSR, (1 << 15))
-            mem_write(MMR.KBDR, ord(getch()))
+            if is_windows:
+                mem_write(MMR.KBDR, ord(msvcrt.getch()))
+            else:
+                mem_write(MMR.KBDR, ord(getch()))
     else:
         mem_write(MMR.KBSR, 0)
 
@@ -57,7 +67,7 @@ class Registers:
 
 
 _REGISTERS_COUNT = 10
-_R = array.array('H', [0 for i in range(_REGISTERS_COUNT)])
+_R = array.array("H", [0 for i in range(_REGISTERS_COUNT)])
 
 
 def reg_write(which, value):
