@@ -1,4 +1,0 @@
-.ORIG x3000
-HALT
-BLOCK_ID .FILL #20 ; Glass.
-.END

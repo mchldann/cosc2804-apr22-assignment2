@@ -101,6 +101,7 @@ def _AND(instruction):
         value = reg_read(source1) & reg_read(source2)
         # update dist ination register value
         reg_write(dis_reg, value)
+    update_flags(dis_reg)
 
 
 def _LDR(instruction):
