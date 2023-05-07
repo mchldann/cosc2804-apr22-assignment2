@@ -67,17 +67,6 @@ def _HALT():
     raise Halt()
 
 
-def _PRINT_REGISTERS():
-    print("R0: " + str(reg_read(Registers.R0)))
-    print("R1: " + str(reg_read(Registers.R1)))
-    print("R2: " + str(reg_read(Registers.R2)))
-    print("R3: " + str(reg_read(Registers.R3)))
-    print("R4: " + str(reg_read(Registers.R4)))
-    print("R5: " + str(reg_read(Registers.R5)))
-    print("R6: " + str(reg_read(Registers.R6)))
-    print("R7: " + str(reg_read(Registers.R7)) + "\n")
-
-
 # Same as reg_read, except returns a signed 16-bit integer instead of unsigned.
 def reg_read_signed(which):
     unsigned = reg_read(which)
@@ -96,6 +85,21 @@ def _CHAT_POST():
             message = message + chr(char)
 
     mc.postToChat(message)
+
+
+def _GET_PLAYER_TILE():
+    playerTile = mc.player.getTilePos()
+    reg_write(Registers.R0, playerTile.x)
+    reg_write(Registers.R1, playerTile.y)
+    reg_write(Registers.R2, playerTile.z)
+
+
+def _SET_PLAYER_TILE():
+    x = reg_read_signed(Registers.R0)
+    y = reg_read_signed(Registers.R1)
+    z = reg_read_signed(Registers.R2)
+
+    mc.player.setTilePos(x, y, z)
 
 
 def _GET_BLOCK():
@@ -124,19 +128,15 @@ def _GET_HEIGHT():
     reg_write(Registers.R1, height)
 
 
-def _GET_PLAYER_TILE():
-    playerTile = mc.player.getTilePos()
-    reg_write(Registers.R0, playerTile.x)
-    reg_write(Registers.R1, playerTile.y)
-    reg_write(Registers.R2, playerTile.z)
-
-
-def _SET_PLAYER_TILE():
-    x = reg_read_signed(Registers.R0)
-    y = reg_read_signed(Registers.R1)
-    z = reg_read_signed(Registers.R2)
-
-    mc.player.setTilePos(x, y, z)
+def _PRINT_REGISTERS():
+    print("R0: " + str(reg_read(Registers.R0)))
+    print("R1: " + str(reg_read(Registers.R1)))
+    print("R2: " + str(reg_read(Registers.R2)))
+    print("R3: " + str(reg_read(Registers.R3)))
+    print("R4: " + str(reg_read(Registers.R4)))
+    print("R5: " + str(reg_read(Registers.R5)))
+    print("R6: " + str(reg_read(Registers.R6)))
+    print("R7: " + str(reg_read(Registers.R7)) + "\n")
 
 
 class Traps:
@@ -146,13 +146,13 @@ class Traps:
     IN = 0x23  # input a string
     PUTSP = 0x24  # output a byte string
     HALT = 0x25  # halt the program
-    PRINT_REGISTERS = 0x30
-    CHAT_POST = 0x31
-    GET_PLAYER_TILE = 0x32
-    SET_PLAYER_TILE = 0x33
-    GET_BLOCK = 0x34
-    SET_BLOCK = 0x35
-    GET_HEIGHT = 0x36
+    CHAT_POST = 0x30
+    GET_PLAYER_TILE = 0x31
+    SET_PLAYER_TILE = 0x32
+    GET_BLOCK = 0x33
+    SET_BLOCK = 0x34
+    GET_HEIGHT = 0x35
+    PRINT_REGISTERS = 0x36
 
 
 _traps = {
@@ -162,13 +162,13 @@ _traps = {
     Traps.IN: _IN,
     Traps.PUTSP: _PUTSP,
     Traps.HALT: _HALT,
-    Traps.PRINT_REGISTERS: _PRINT_REGISTERS,
     Traps.CHAT_POST: _CHAT_POST,
     Traps.GET_BLOCK: _GET_BLOCK,
     Traps.SET_BLOCK: _SET_BLOCK,
     Traps.GET_HEIGHT: _GET_HEIGHT,
     Traps.GET_PLAYER_TILE: _GET_PLAYER_TILE,
     Traps.SET_PLAYER_TILE: _SET_PLAYER_TILE,
+    Traps.PRINT_REGISTERS: _PRINT_REGISTERS,
 }
 
 
