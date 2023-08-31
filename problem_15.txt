@@ -1,4 +1,4 @@
-(a) Replace each '...' below with the binary representation.
+(a-i) Replace each '...' below with the binary representation.
 
 x5020 = ...
 x923F = ...
@@ -8,10 +8,10 @@ x1240 = ...
 x103F = ...
 x03FC = ...
 
-(b)
+(a-ii)
 
-(c-i)
+(b-i)
 
-(c-ii)
+(b-ii)
 
-(d)
+(c)
