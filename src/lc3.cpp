@@ -77,7 +77,6 @@ enum
     TRAP_SET_BLOCK = 0x34,
     TRAP_GET_HEIGHT = 0x35,
     TRAP_PRINT_REGISTERS = 0x36,
-    TRAP_RANDOM_BLOCKS = 0x37
 };
 
 #define MEMORY_MAX (1 << 16)
@@ -407,47 +406,6 @@ void ins(uint16_t instr)
                 printf("R5: %u\n", reg[5]);
                 printf("R6: %u\n", reg[6]);
                 printf("R7: %u\n", reg[7]);
-            }
-            else if (trapvect == TRAP_RANDOM_BLOCKS)
-            {
-                int x_start = unsigned_to_signed(reg[0]);
-                int y_start = unsigned_to_signed(reg[1]);
-                int z_start = unsigned_to_signed(reg[2]);
-
-                int x_end = unsigned_to_signed(reg[3]);
-                int y_end = unsigned_to_signed(reg[4]);
-                int z_end = unsigned_to_signed(reg[5]);
-
-                if ((x_start > x_end) || (y_start > y_end) || (z_start > z_end))
-                {
-                    (*mc_conn).postToChat("Invalid coordinates");
-                }
-                else
-                {
-                    for (int x = x_start; x <= x_end; x++) {
-                        for (int y = y_start; y <= y_end; y++) {
-                            for (int z = z_start; z <= z_end; z++) {
-
-                                mcpp::Coordinate pos(x, y, z);
-
-                                double prob = ((double) rand() / (RAND_MAX));
-
-                                if (prob < 0.15)
-                                {
-                                    (*mc_conn).setBlock(pos, mcpp::Blocks::GRASS);
-                                }
-                                else if (prob < 0.85)
-                                {
-                                    (*mc_conn).setBlock(pos, mcpp::Blocks::GLASS);
-                                }
-                                else
-                                {
-                                    (*mc_conn).setBlock(pos, mcpp::Blocks::STONE);
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     }
